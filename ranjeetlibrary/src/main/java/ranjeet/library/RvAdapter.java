@@ -10,45 +10,45 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RvAdapter extends RecyclerView.Adapter {
+public abstract class RvAdapter<T> extends RecyclerView.Adapter {
 
-    private List<Object> dataSet;
+    private List<T> dataSet;
     private List<WeakReference<RecyclerView.ViewHolder>> holders;
 
-    public RvAdapter(List<Object> dataSet){
+    public RvAdapter(List<T> dataSet){
         this.holders = new ArrayList<>();
         this.dataSet = dataSet;
     }
 
-    public final void setDataSet(List<Object> newDataSet){
-        List<Object> oldDataSet = this.dataSet;
+    public final void setDataSet(List<T> newDataSet){
+        List<T> oldDataSet = this.dataSet;
         this.dataSet.clear();
         this.dataSet.addAll(newDataSet);
         dataSetChanged(oldDataSet, newDataSet);
     }
 
-    public final void setDataSet(List<Object> newDataSet, DiffUtil.Callback diffUtilCallback){
+    public final void setDataSet(List<T> newDataSet, DiffUtil.Callback diffUtilCallback){
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffUtilCallback);
         diffResult.dispatchUpdatesTo(this);
         this.dataSet.clear();
         this.dataSet.addAll(newDataSet);
     }
 
-    public final List<Object> getDataSet(){
+    public final List<T> getDataSet(){
         return new ArrayList<>(this.dataSet);
     }
 
-    public final void addData(Object data){
+    public final void addData(T data){
         this.dataSet.add(data);
         notifyItemInserted(this.dataSet.size()-1);
     }
 
-    public final void addData(int position, Object data){
+    public final void addData(int position, T data){
         this.dataSet.add(position, data);
         notifyItemInserted(position);
     }
 
-    public final void deleteData(Object data){
+    public final void deleteData(T data){
         int position = this.dataSet.indexOf(data);
         this.dataSet.remove(data);
         notifyItemRemoved(position);
@@ -59,12 +59,12 @@ public abstract class RvAdapter extends RecyclerView.Adapter {
         notifyItemRemoved(position);
     }
 
-    public final void updateData(int position, Object newData){
+    public final void updateData(int position, T newData){
         this.dataSet.set(position, newData);
         notifyItemChanged(position);
     }
 
-    private void dataSetChanged(List<Object> oldDataSet, List<Object> newDataSet){
+    private void dataSetChanged(List<T> oldDataSet, List<T> newDataSet){
         int oldStart = getOldStart();
         int oldEnd = getOldEnd();
 
