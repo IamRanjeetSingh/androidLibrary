@@ -62,6 +62,10 @@ public abstract class RvAdapter<T> extends RecyclerView.Adapter {
         this.dataSet.remove(position);
         notifyItemRemoved(position);
     }
+    
+    public final void setData(int position, T newData){
+        this.dataSet.set(position, newData);
+    }
 
     public final void updateData(int position, T newData){
         this.dataSet.set(position, newData);
