@@ -67,6 +67,10 @@ public abstract class RvAdapter<T> extends RecyclerView.Adapter {
         this.dataSet.set(position, newData);
         notifyItemChanged(position);
     }
+    
+    public final int getDataSetSize(){
+        return this.dataSet.size();
+    }
 
     private void dataSetChanged(List<T> oldDataSet, List<T> newDataSet){
         int oldStart = getOldStart();
